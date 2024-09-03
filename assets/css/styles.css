@@ -37,7 +37,6 @@ main {
     margin-top: 2.25rem;
 }
 
-
 #registrarDatos div {
     border-top: 1px solid var(--black-color);
     border-bottom: 1px solid var(--black-color);
@@ -131,19 +130,17 @@ footer p {
     background-color: var(--tertiary-color);
 }
 
-#tablaTrabajadoresPorProyecto {
-    padding: .25rem;
-}
-
 #contenedorMostrarDatos {
     border-bottom: 1px solid var(--black-color);
 }
 
-#contenedorMostrarDatos div:first-of-type {
+#contenedorMostrarDatos div:first-of-type,
+#contenedorMostrarDatosBuscados div:first-of-type {
     border-bottom: 1px solid var(--secondary-color);
 }
 
-#contenedorMostrarDatos div {
+#contenedorMostrarDatos div,
+#contenedorMostrarDatosBuscados div {
     padding: .25rem;
 }
 
@@ -205,3 +202,8 @@ caption span {
 #mostrarDatos div table tr:hover td {
     background-color: var(--tertiary-color);
 }
+
+#tablaArticulosPorProveedor {
+    padding: .25rem;
+}
+

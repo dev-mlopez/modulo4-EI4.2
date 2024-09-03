@@ -23,6 +23,52 @@ export default class Proveedor {
     registrarArticulo = articulo => this.articulos.push(articulo);
 
     getInfoProveedor() {
-        return `Nombre: ${this.nombre}, Telefono: ${this.telefono}`;
+        const $tablaProveedor = document.getElementById("tablaDatosProveedor"),
+            $tablaCuerpoProveedor = document.createElement("tbody");
+        $tablaProveedor.innerHTML = `
+            <caption>Datos del proveedor con email <span>${this.getEmail()}</span></caption>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Telefono</th>
+                </tr>
+            </thead>
+        `
+        $tablaCuerpoProveedor.innerHTML += `
+            <tr>
+                <td>${this.getId()}</td>
+                <td>${this.getNombre()}</td>
+                <td>${this.getTelefono()}</td>
+            </tr>
+        `
+        $tablaProveedor.appendChild($tablaCuerpoProveedor);
+    }
+
+    getInfoArticulo() {
+        const $tablaArticulo = document.getElementById("tablaArticulosPorProveedor"),
+        $tablaCuerpoArticulo = document.createElement("tbody");
+        $tablaArticulo.innerHTML = `
+            <caption>Datos de los articulos del proveedor con email <span>${this.getEmail()}</span></caption>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+        `
+        this.articulos.forEach(articulo => {
+            $tablaCuerpoArticulo.innerHTML += `
+                <tbody>
+                    <tr>
+                        <td>${articulo.getId()}</td>
+                        <td>${articulo.getNombre()}</td>
+                        <td>${articulo.getPrecio()}</td>
+                    </tr>
+                </tbody>
+            `
+            $tablaArticulo.appendChild($tablaCuerpoArticulo);
+        })
     }
 }

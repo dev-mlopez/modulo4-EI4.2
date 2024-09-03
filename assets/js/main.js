@@ -11,12 +11,12 @@ const proveedores = [],
 const consultarCorreo = correo => 
     correos.has(correo);
 
-const gestionarProveedor = (nombre, correo, telefono) => 
+const verificarProveedor = (nombre, correo, telefono) => 
     consultarCorreo(correo)
         ? alert(`El email ${correo} ya existe, no se puede volver a registrar un proveedor con este correo`)
         : anadirProveedor(nombre, correo, telefono);
 
-const gestionarArticulo = (correo, nombre, precio) => 
+const verificarArticulo = (correo, nombre, precio) => 
     consultarCorreo(correo)
         ? anadirArticulo(correo, nombre, precio)
         : alert(`El email ${correo} no existe`);
@@ -36,17 +36,15 @@ const anadirArticulo = (correo, nombre, precio) => {
     mostrarArticulos();
 }
 
-const registrarProveedor = () => 
-    gestionarProveedor(
-        d.getElementById("nombreProveedor").value, 
-        d.getElementById("emailProveedor").value, 
-        d.getElementById("telefonoProveedor").value);
+const consultarDatosProveedor = correo => 
+    consultarCorreo(correo)
+        ? proveedores[infoProveedor.get(correo)].getInfoProveedor()
+        : alert(`El correo ${correo} no existe`);
 
-const registrarArticulo = () =>
-    gestionarArticulo(
-        d.getElementById("emailProveedorRegistrado").value,
-        d.getElementById("nombreArticulo").value,
-        parseInt(d.getElementById("precioArticulo").value));
+const consultarArticulosPorProveedor = correo =>
+    consultarCorreo(correo)
+        ? proveedores[infoProveedor.get(correo)].getInfoArticulo()
+        : alert(`El correo ${correo} no existe`)
 
 // Anadir datos por defecto
 const gestionarProveedores = [
@@ -80,26 +78,26 @@ const gestionarProveedores = [
         {
             email: "Pedro@email.com",
             nombre: "Limon",
-            precio: 500
+            precio: 300
         },
         {
             email: "Mauri@email.com",
             nombre: "Fideos",
-            precio: 1000
+            precio: 500
         },
         {
             email: "Pedro@email.com",
             nombre: "Arroz",
-            precio: 800
+            precio: 1000
         }
     ]
 
 gestionarProveedores.forEach(proveedor => {
-    gestionarProveedor(proveedor.nombre, proveedor.email, proveedor.telefono);
+    verificarProveedor(proveedor.nombre, proveedor.email, proveedor.telefono);
 })
 
 gestionarArticulos.forEach(articulo => {
-    gestionarArticulo(articulo.email, articulo.nombre, articulo.precio);
+    verificarArticulo(articulo.email, articulo.nombre, articulo.precio);
 })
 
 // Mostrar datos registrados
@@ -107,6 +105,7 @@ function mostrarProveedor() {
     const $tablaProveedor = d.getElementById("tablaProveedores"),
         $tablaCuerpoProveedor = d.createElement("tbody");
     $tablaProveedor.innerHTML = `
+        <caption>Proveedores Registrados</caption>
         <thead>
             <tr>
                 <th>ID</th>
@@ -133,6 +132,7 @@ function mostrarArticulos() {
     const $tablaArticulos = d.getElementById("tablaArticulos"),
         $tablaCuerpoArticulo = d.createElement("tbody");
     $tablaArticulos.innerHTML = `
+        <caption>Articulos Registrados</caption>
         <thead>
             <tr>
                 <th>ID</th>
@@ -155,12 +155,23 @@ function mostrarArticulos() {
 
 // Acciones de Btn
 d.getElementById("registrarProveedorBtn").addEventListener("click", e => {
-    registrarProveedor();
+    verificarProveedor(
+        d.getElementById("nombreProveedor").value, 
+        d.getElementById("emailProveedor").value, 
+        d.getElementById("telefonoProveedor").value);
 })
 
 d.getElementById("registrarArticuloBtn").addEventListener("click", e => {
-    registrarArticulo();
+    verificarArticulo(
+        d.getElementById("emailProveedorRegistrado").value, 
+        d.getElementById("nombreArticulo").value, 
+        parseInt(d.getElementById("precioArticulo").value));
 })
 
-// proveedores[infoProveedor.get("Pedro@email.com")].registrarArticulo(articulos[0])
-// console.log(proveedores[infoProveedor.get("Pedro@email.com")].articulos);
+d.getElementById("buscarDatosProveedorBtn").addEventListener("click", e => {
+    consultarDatosProveedor(d.getElementById("emailDatosProveedorBuscado").value);
+})
+
+d.getElementById("buscarArticulosProveedorBtn").addEventListener("click", e => {
+    consultarArticulosPorProveedor(d.getElementById("emailProveedorBuscado").value);
+})
